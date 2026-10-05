@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity 
 @Table (name = "caht_messages")
-public class ChatMessages {
+public class ChatMessage {
 
     @Id 
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class ChatMessages {
     @Column (name = "created_At", nullable = false)
     private LocalDateTime createdAt;
 
-    public ChatMessages (){
+    public ChatMessage (){
 
     }
 
