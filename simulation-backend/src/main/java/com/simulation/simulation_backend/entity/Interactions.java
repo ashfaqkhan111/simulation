@@ -11,7 +11,7 @@ public class Interactions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany 
+    @ManyToOne 
     @JoinColumn (name = "session_id", nullable = false)
     private SimulationSession simulationSession;
 
@@ -41,6 +41,9 @@ public class Interactions {
 
     public Long getId (){
         return id;
+    }
+    public void setId(Long id){
+        this.id = id;
     }
     public SimulationSession getSimulationSession(){
         return simulationSession;

@@ -12,11 +12,11 @@ public class ChatSession {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany 
+    @ManyToOne 
     @JoinColumn (name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany 
+    @ManyToOne
     @JoinColumn (name = "simulation_session_id", nullable = false)
     private SimulationSession simulationSession;
 
@@ -35,6 +35,9 @@ public class ChatSession {
     public Long getId(){
         return id;
 
+    }
+    public void setId(Long id){
+        this.id = id;
     }
 
     public User getUser(){

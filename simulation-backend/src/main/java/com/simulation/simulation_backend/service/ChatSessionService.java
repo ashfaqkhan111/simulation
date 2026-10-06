@@ -22,7 +22,7 @@ public class ChatSessionService {
         return chatSessionRepository.save(chatSession);
     }
 
-    public List<ChatSession> getAllChatSessions(ChatSession chatSession){
+    public List<ChatSession> getAllChatSessions(){
         return chatSessionRepository.findAll();
     }
 

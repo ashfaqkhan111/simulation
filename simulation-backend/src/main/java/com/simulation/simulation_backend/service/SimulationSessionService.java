@@ -16,7 +16,7 @@ public class SimulationSessionService {
         this.simulationSessionRepository = simulationSessionRepository;
     }
 
-    public SimulationSession creatSession(SimulationSession session){
+    public SimulationSession createSession(SimulationSession session){
         return simulationSessionRepository.save(session);
     }
 
@@ -28,7 +28,7 @@ public class SimulationSessionService {
         return simulationSessionRepository.findById(id);
     }
 
-    public SimulationSession updSimulationSession (SimulationSession session){
+    public SimulationSession updateSimulationSession (SimulationSession session){
         return simulationSessionRepository.save(session);
     }
 

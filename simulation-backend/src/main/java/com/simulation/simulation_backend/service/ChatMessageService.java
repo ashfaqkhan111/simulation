@@ -16,7 +16,7 @@ public class ChatMessageService {
         this.chatMessageRepositroy = chatMessageRepositroy;
     }
     
-    public ChatMessage saveChatMessage(ChatMessage chatMessage){
+    public ChatMessage createChatMessage(ChatMessage chatMessage){
         return chatMessageRepositroy.save(chatMessage);
     }
 
@@ -24,11 +24,11 @@ public class ChatMessageService {
         return chatMessageRepositroy.findAll();
     }
 
-    public Optional<ChatMessage> getChatMessagesById(Long id){
+    public Optional<ChatMessage> getChatMessageById(Long id){
         return chatMessageRepositroy.findById(id);
     }
 
-    public ChatMessage updateMessage(ChatMessage chatMessage){
+    public ChatMessage updateChatMessage(ChatMessage chatMessage){
         return chatMessageRepositroy.save(chatMessage);
     }
 
