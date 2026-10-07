@@ -11,7 +11,8 @@ public class ChatMessage {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn (name = "chat_session_id")
+    @ManyToOne 
+    @JoinColumn (name = "chat_session_id", nullable = false)
     private ChatSession chatSession;
 
     @Column (name = "sender", nullable = false)
@@ -39,7 +40,7 @@ public class ChatMessage {
         this.id = id;
     }
 
-    public ChatSession gChatSession(){
+    public ChatSession getChatSession(){
         return chatSession;
     }
     public void setChatSession(ChatSession chatSession){
