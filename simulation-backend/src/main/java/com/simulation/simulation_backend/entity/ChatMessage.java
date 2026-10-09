@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity 
-@Table (name = "caht_messages")
+@Table (name = "chat_messages")
 public class ChatMessage {
 
     @Id 
@@ -18,10 +18,10 @@ public class ChatMessage {
     @Column (name = "sender", nullable = false)
     private String sender;
 
-    @Column (name = "message", nullable = false)
+    @Column (columnDefinition = "TEXT", name = "message", nullable = false)
     private String message;
 
-    @Column (name = "created_At", nullable = false)
+    @Column (name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     public ChatMessage (){

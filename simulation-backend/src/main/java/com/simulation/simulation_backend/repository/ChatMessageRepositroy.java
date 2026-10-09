@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ChatMessageRepositroy extends JpaRepository <ChatMessage, Long>{
-    List<ChatMessage> findByChatSession(Long chatSessoinId);
+    List<ChatMessage> findByChatSessionId(Long chatSessoinId);
     
 }

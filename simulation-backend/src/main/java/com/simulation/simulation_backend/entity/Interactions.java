@@ -21,10 +21,10 @@ public class Interactions {
     @Column (name = "object_name")
     private String objectName;
 
-    @Column (name = "tempature")
-    private Double tempature;
+    @Column (name = "temprature")
+    private Double temprature;
 
-    @Column (name = "data")
+    @Column(columnDefinition = "TEXT", name = "data")
     private String data;
 
     @Column (name = "created_at")
@@ -48,7 +48,7 @@ public class Interactions {
     public SimulationSession getSimulationSession(){
         return simulationSession;
     }
-    public void simulationSession (SimulationSession simulationSession){
+    public void setsimulationSession (SimulationSession simulationSession){
         this.simulationSession = simulationSession;
     }
 
@@ -67,11 +67,11 @@ public class Interactions {
 
     }
 
-    public Double getTempature (){
-        return tempature;
+    public Double getTemprature (){
+        return temprature;
     }
-    public void setTempature(double tempature){
-        this.tempature = tempature;
+    public void setTemprature(double temprature){
+        this.temprature = temprature;
     }
 
     public String getData(){

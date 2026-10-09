@@ -54,7 +54,7 @@ public class ChatSession {
         this.simulationSession = simulationSession;
     }
 
-    public LocalDateTime getCreateAt(){
+    public LocalDateTime getCreatedAt(){
         return createdAt;
     }
 
