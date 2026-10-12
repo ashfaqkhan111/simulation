@@ -32,9 +32,7 @@ public class SimulationSessionController {
     }
     @PutMapping ("/{id}")
     public ResponseEntity<SimulationSession> updateSimulationSession(@PathVariable Long id, @RequestBody SimulationSession session){
-        session.setId(id);
-        SimulationSession updatedSession = simulationSessionService.updateSimulationSession(session);
-        return ResponseEntity.ok(updatedSession);
+       return ResponseEntity.ok(simulationSessionService.updateSession(id, session));
 
     }
     @DeleteMapping("/{id}")

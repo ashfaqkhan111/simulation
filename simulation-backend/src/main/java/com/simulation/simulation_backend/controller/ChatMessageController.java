@@ -49,16 +49,12 @@ public class ChatMessageController {
     @PutMapping("/{id}")
     public ResponseEntity<ChatMessage> updateChatMessage(@PathVariable Long id, @RequestBody ChatMessage chatMessage) {
 
-        chatMessage.setId(id);
-
-        ChatMessage updatedMessage = chatMessageService.updateChatMessage(chatMessage);
-
-        return ResponseEntity.ok(updatedMessage);
+        return ResponseEntity.ok(chatMessageService.updateChatMessage(id,chatMessage));
     }
 
    
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteChatMessage(@PathVariable Long id) {
+    public ResponseEntity<ChatMessageService> deleteChatMessage(@PathVariable Long id) {
 
         chatMessageService.deleteChatMessage(id);
 

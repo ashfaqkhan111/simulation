@@ -2,15 +2,19 @@ package com.simulation.simulation_backend.controller;
 
 import com.simulation.simulation_backend.entity.User;
 import com.simulation.simulation_backend.service.UserService;
+import com.simulation.simulation_backend.dto.*;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 @RestController 
-@RequestMapping("/api/users")
+@RequestMapping ("/api/users")
 public class UserController {
-    
+
     private final UserService userService;
 
     public UserController(UserService userService){
@@ -18,34 +22,34 @@ public class UserController {
     }
 
     @PostMapping 
-    public ResponseEntity<User> createUser(@RequestBody User user){
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.ok(createdUser);
+    public ResponseEntity<UserResponse> createUser(@RequestBody RegisterUserRequest request){
+        UserResponse createdUser = userService.createUser((request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+    @GetMapping 
+    public ResponseEntity<List<UserResponse>> getAllUsers(){
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+    @GetMapping ("/{id}")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id){
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id){
-        return userService.getUserById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    @PutMapping ("/{id}")
+    public ResponseEntity<UserResponse> updateProfile(@PathVariable  Long id, @RequestBody UpdateProfileRequest request){
+        return ResponseEntity.ok(userService.updateProfile(id, request));
     }
-    @GetMapping("/username/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username){
-        return userService.getUserByUsername(username).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-    @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email){
-        return userService.getUserByEmail(email).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-      }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user){
-        user.setId(id);
-        User updatedUser = userService.updateUser(user);
-        return ResponseEntity.ok(updatedUser);
+    @PutMapping ("/{id}/password")
+    public ResponseEntity<Void> changePassword(@PathVariable Long id, @RequestBody ChangePasswordRequest request){
+        userService.changePassword(id, request);
+        return ResponseEntity.noContent().build();
     }
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping ("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-
+    
 }

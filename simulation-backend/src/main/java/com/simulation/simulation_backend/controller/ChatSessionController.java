@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController 
-@RequestMapping("/api/chat-session")
+@RequestMapping("/api/chat-sessions")
 public class ChatSessionController {
 
     private final ChatSessionService chatSessionService;
@@ -35,12 +35,7 @@ public class ChatSessionController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<ChatSession> updateChatSession(@PathVariable Long id, @RequestBody ChatSession chatSession) {
-
-        chatSession.setId(id);
-
-        ChatSession updated = chatSessionService.updateChatSession(chatSession);
-
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(chatSessionService.updateChatSession(id, chatSession));
     }
 
     @DeleteMapping("/{id}")

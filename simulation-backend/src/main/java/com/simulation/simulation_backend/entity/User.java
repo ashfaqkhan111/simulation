@@ -2,6 +2,8 @@ package com.simulation.simulation_backend.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity 
 @Table(name = "users")
 public class User {
@@ -16,6 +18,7 @@ private String username;
 @Column (nullable = false, unique = true)
 private String email;
 
+@JsonIgnore 
 @Column (name = "password_hash", nullable = false)
 private String passwordHash;
 

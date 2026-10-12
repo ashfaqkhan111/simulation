@@ -37,13 +37,14 @@ public class InteractionsController {
     @PutMapping ("/{id}")
     ResponseEntity<Interactions> updateInteraction(@PathVariable Long id, @RequestBody Interactions interaction){
         interaction.setId(id);
-        Interactions updatedInteraction = interactionService.updateInteraction(interaction);
+        Interactions updatedInteraction = interactionService.updateInteraction(id, interaction);
         return ResponseEntity.ok(updatedInteraction);
     }
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteInteraction(@PathVariable Long id){
-        interactionService.deleteIntraction(id);
-        return ResponseEntity.noContent().build();
+    ResponseEntity<Interactions> deleteInteraction(@PathVariable Long id, @RequestBody Interactions inteaction){
+
+        return ResponseEntity.ok(interactionService.updateInteraction(id, inteaction));
+
     }
 
     
