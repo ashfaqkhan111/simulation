@@ -57,12 +57,5 @@ public class ChatSession {
     public LocalDateTime getCreatedAt(){
         return createdAt;
     }
-
-
-
-    
-
-
-
     
 }
