@@ -36,7 +36,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 try{
                     Long userId = jwtService.extractUserId(token);
 
+                    // System.out.println("JWT valid for user ID: " + userId);
+
                     var authentication = UsernamePasswordAuthenticationToken.authenticated(userId.toString(), null, List.of());
+
+        //             System.out.println("Authentication set: "
+        // + SecurityContextHolder.getContext()
+        //         .getAuthentication().isAuthenticated());
                     
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }catch(JwtException | IllegalArgumentException ex){

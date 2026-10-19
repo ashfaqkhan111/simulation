@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.authentication.BadCredentialsException;
 
 
 import java.util.List;
@@ -145,6 +146,18 @@ public class UserService {
             throw new ResourceNotFoundException("user "+id+" not found");
         }
         userRepository.deleteById(id);
+    }
+
+    @Transactional (readOnly = true)
+    public User authenticate(String identifier, String rawPassword){
+        User user = userRepository.findByUsername(identifier).or(() -> 
+    userRepository.findByEmail(identifier)).orElseThrow(()-> new BadCredentialsException("Invalid credentials"));
+
+    if(rawPassword == null || !passwordEncoder.matches(rawPassword, user.getPasswordHash())){
+        throw new BadCredentialsException("Invalid credentials");
+    }
+
+    return user;
     }
     
     

@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.util.List;
 
@@ -20,6 +22,11 @@ public class UserController {
     public UserController(UserService userService){
         this.userService = userService;
     }
+    private void requireOwner(Long id, Authentication authentication){
+        if(authentication == null || !authentication.isAuthenticated() || !String.valueOf(id).equals(authentication.getName())){
+            throw new AccessDeniedException("access denied ");
+        }
+    }
 
     @PostMapping 
     public ResponseEntity<UserResponse> createUser(@RequestBody RegisterUserRequest request){
@@ -31,18 +38,23 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
     @GetMapping ("/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id){
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id, Authentication authentication){
+        requireOwner(id, authentication);
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PutMapping ("/{id}")
-    public ResponseEntity<UserResponse> updateProfile(@PathVariable  Long id, @RequestBody UpdateProfileRequest request){
+    public ResponseEntity<UserResponse> updateProfile(@PathVariable Long id, @RequestBody  UpdateProfileRequest request, Authentication authentication){
+        requireOwner(id, authentication);
+
         return ResponseEntity.ok(userService.updateProfile(id, request));
     }
 
     @PutMapping ("/{id}/password")
-    public ResponseEntity<Void> changePassword(@PathVariable Long id, @RequestBody ChangePasswordRequest request){
+    public ResponseEntity<Void> ChangePassword(@PathVariable Long id, @RequestBody  ChangePasswordRequest request, Authentication authentication){
+        requireOwner(id, authentication);
         userService.changePassword(id, request);
+
         return ResponseEntity.noContent().build();
     }
 
