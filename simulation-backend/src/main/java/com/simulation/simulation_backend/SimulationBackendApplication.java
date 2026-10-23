@@ -1,14 +1,17 @@
 package com.simulation.simulation_backend;
 
+import com.simulation.simulation_backend.config.JwtProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
+@ConfigurationPropertiesScan
 public class SimulationBackendApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SimulationBackendApplication.class, args);
-		System.out.println("hello the server is running");
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(
+            SimulationBackendApplication.class, args
+        );
+    }
 }
