@@ -37,7 +37,7 @@ public class JwtService {
         return Long.parseLong(claims.getSubject());
     }
 
-    public boolean isValic(String token){
+    public boolean isValid(String token){
         try{
             extractUserId(token);
             return true;
