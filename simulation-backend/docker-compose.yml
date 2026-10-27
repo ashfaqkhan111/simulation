@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-simulation}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME:-simulation}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    # No "ports" on purpose: the database is reachable only by the app,
+    # not from the internet.
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME:-simulation}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      # JwtService still reads app.jwt.expiration-ms, so it must be set
+      APP_JWT_SECRET: ${JWT_SECRET}
+      APP_JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-3600000}
+      APP_JWT_ACCESS_TOKEN_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-3600000}
+      APP_JWT_REFRESH_TOKEN_EXPIRATION_MS: ${JWT_REFRESH_EXPIRATION_MS:-604800000}
+      # GeminiConfig reads this from the environment; the app won't start without it
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
+      # Don't print every SQL statement on a production server
+      SPRING_JPA_SHOW_SQL: "false"
+
+volumes:
+  pgdata:
