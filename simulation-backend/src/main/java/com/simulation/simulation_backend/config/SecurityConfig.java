@@ -1,7 +1,8 @@
-
 package com.simulation.simulation_backend.config;
 
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -31,6 +32,23 @@ public class SecurityConfig {
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
+
+            // Return 401 when authentication is missing or invalid
+            .exceptionHandling(exception -> exception
+                .authenticationEntryPoint((request, response, authException) ->
+                    response.sendError(
+                        HttpServletResponse.SC_UNAUTHORIZED,
+                        "Unauthorized"
+                    )
+                )
+                .accessDeniedHandler((request, response, accessDeniedException) ->
+                    response.sendError(
+                        HttpServletResponse.SC_FORBIDDEN,
+                        "Forbidden"
+                    )
+                )
+            )
+
             .authorizeHttpRequests(auth -> auth
                 .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
 
@@ -38,10 +56,14 @@ public class SecurityConfig {
                     HttpMethod.POST,
                     "/api/auth/login",
                     "/api/users"
+                    
                 ).permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/api/users").denyAll()
+
                 .requestMatchers(HttpMethod.DELETE, "/api/users/**").denyAll()
+
+                .requestMatchers("/api/ai/**").authenticated()
 
                 .anyRequest().authenticated()
             )
